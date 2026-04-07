@@ -1,0 +1,13 @@
+{
+  "base_url": "/",
+  "hostname": "192.168.4.1",
+  "password": false,
+  "pid": 1612,
+  "port": 8888,
+  "root_dir": "/home/pinky",
+  "secure": false,
+  "sock": "",
+  "token": "",
+  "url": "http://192.168.4.1:8888/",
+  "version": "2.16.0"
+}

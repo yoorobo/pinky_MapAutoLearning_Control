@@ -1,0 +1,20 @@
+# ROS 2 빌드 산출물
+pinky/pinky_pro/build/
+pinky/pinky_pro/install/
+pinky/pinky_pro/log/
+
+# 비밀 정보 (절대 커밋 금지)
+.env
+*.secret
+*token*
+*chat_id*
+
+# 지도 및 대용량 파일
+*.pgm
+*.yaml.bak
+/tmp/
+
+# Python 및 IDE
+__pycache__/
+*.pyc
+.vscode/

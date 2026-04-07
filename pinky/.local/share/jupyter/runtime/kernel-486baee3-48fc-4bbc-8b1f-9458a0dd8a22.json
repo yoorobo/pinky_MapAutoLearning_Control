@@ -1,0 +1,13 @@
+{
+  "shell_port": 36985,
+  "iopub_port": 58497,
+  "stdin_port": 59897,
+  "control_port": 49181,
+  "hb_port": 43137,
+  "ip": "127.0.0.1",
+  "key": "45a4e29f-ba0b95cbbba65971400bfaff",
+  "transport": "tcp",
+  "signature_scheme": "hmac-sha256",
+  "kernel_name": "python3",
+  "jupyter_session": "/home/pinky/pinky_test/pinky_test.ipynb"
+}
