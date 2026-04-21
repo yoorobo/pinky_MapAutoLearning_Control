@@ -52,12 +52,6 @@ ros2 launch pinky_mission mission_launch.py \
 ## 🏗️ 시스템 아키텍처
 
 ```mermaid
-제공해주신 draw.io(mxGraph) XML 데이터를 분석하여, GitHub README.md에서 바로 사용할 수 있는 Mermaid 코드로 변환해 드립니다.
-
-이 코드는 사용자-네트워크-컨트롤러-하드웨어로 이어지는 4단계 계층 구조를 명확하게 시각화합니다.
-
-🏗️ Pinky Pro System Architecture (Mermaid)
-코드 스니펫
 graph TD
     %% Segment 1: User / Operator
     subgraph User_Segment [User / Operator Segment]
