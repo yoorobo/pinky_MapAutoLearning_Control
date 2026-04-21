@@ -1,4 +1,3 @@
-Markdown
 <div align="center">
 
 # 🤖 Pinky: Autonomous Swarm Search & Rescue System
@@ -34,7 +33,7 @@ Markdown
 
 ```bash
 # 1. Clone Repository
-git clone [https://github.com/](https://github.com/)<your-org>/pinky_MapAutoLearning_Control.git
+git clone https://github.com/yoorobo/pinky_MapAutoLearning_Control.git
 cd pinky_MapAutoLearning_Control/pinky/pinky_pro
 
 # 2. Build & Source
@@ -46,9 +45,9 @@ source install/setup.bash
 ros2 launch pinky_mission mission_launch.py \
     bot_token:=YOUR_TELEGRAM_TOKEN \
     chat_id:=YOUR_CHAT_ID
-## 🏗️ System Architecture (시스템 아키텍처)
 
-```mermaid
+🏗️ System Architecture (시스템 아키텍처)
+코드 스니펫
 graph TD
     subgraph User_Operator ["User / Operator Segment"]
         Browser["Web Browser<br/>(Mobile / PC)"]
@@ -98,6 +97,7 @@ graph TD
     BaseCon --> DY_SDK --> Motors
     SensorNode <--> IO_IF <--> Sensors
     IO_IF --> Displays
+
 ```
 
 ### 🔄 Data Flow Summary (데이터 흐름 요약)
