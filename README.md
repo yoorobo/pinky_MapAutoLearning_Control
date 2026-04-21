@@ -1,55 +1,50 @@
 <div align="center">
 
-# 🤖 Pinky MapAutoLearning & Control
+# 🤖 Pinky: Autonomous Swarm Search & Rescue System
 
-**ROS 2 기반 다중 로봇 자율 탐색·관제 시스템**
+**ROS 2-based Multi-Robot Autonomous Exploration & Fleet Management System**
 
 [![ROS2 Humble](https://img.shields.io/badge/ROS2-Humble-blue?logo=ros)](https://docs.ros.org/en/humble/)
 [![Python](https://img.shields.io/badge/Python-3.10-yellow?logo=python)](https://www.python.org/)
 [![License](https://img.shields.io/badge/License-Apache%202.0-green)](LICENSE)
 [![Platform](https://img.shields.io/badge/Platform-Raspberry%20Pi-red?logo=raspberry-pi)](https://www.raspberrypi.com/)
 
-[빠른 시작](#-빠른-시작) · [아키텍처](#-시스템-아키텍처) · [노드 목록](#-노드-상세) · [설치](#-설치) · [기여하기](#-기여하기)
+[Quick Start](#-quick-start) · [Architecture](#-system-architecture) · [Node Details](#-node-details) · [Troubleshooting](#-field-troubleshooting--safety) · [Installation](#-installation)
 
 </div>
 
 ---
 
-## 📌 무엇을 할 수 있나요?
+## 📌 Key Features (주요 기능)
 
-| 기능 | 설명 |
+| Feature | Description |
 |------|------|
-| 🗺️ **SLAM-free 지도 생성** | LiDAR + Odometry만으로 OccupancyGrid 실시간 작성 |
-| 🤖 **군집 자율 탐색** | N대의 로봇이 구역을 분할하여 협력 탐색 (BFS + Nav2) |
-| 🎯 **미션 관리** | 실종신고 · 유기견 · 유기묘 등 미션을 지도에서 클릭 등록·배분 |
-| 💬 **자연어 제어** | Ollama sLLM으로 한국어 명령을 로봇 동작으로 변환 |
-| 📱 **텔레그램 연동** | 탐지 현장 사진+좌표 자동 보고 / 텔레그램으로 로봇 원격 제어 |
-| 🖥️ **실시간 관재 UI** | Matplotlib 기반 군집 지도·상태·미션 통합 대시보드 |
-| 👁️ **YOLOv8 탐지** | 사람·개·고양이 실시간 감지 후 전체 군집에 위치 경보 |
+| 🗺️ **SLAM-free Mapping** | Real-time OccupancyGrid generation using only LiDAR + Odometry (Optimized for Edge devices). |
+| 🤖 **Swarm Exploration** | Collaborative area-partitioned exploration for N robots using BFS + Nav2. |
+| 🎯 **Mission Management** | Map-based click-to-assign mission dispatching for search & rescue scenarios. |
+| 💬 **NLP Control** | Translates natural language (Korean/English) to robot commands via local sLLM (Ollama). |
+| 📱 **Telegram Integration** | Automated field reporting with photos + coordinates and remote manual overrides. |
+| 🖥️ **Fleet Control UI** | Integrated dashboard for real-time swarm status and mission monitoring (Matplotlib). |
+| 👁️ **YOLOv8 Detection** | Real-time detection of people/dogs/cats with swarm-wide synchronized alerts. |
 
 ---
 
-## ⚡ 빠른 시작
+## ⚡ Quick Start (빠른 시작)
 
 ```bash
-# 1. 저장소 클론
-git clone https://github.com/<your-org>/pinky_MapAutoLearning_Control.git
+# 1. Clone Repository
+git clone [https://github.com/](https://github.com/)<your-org>/pinky_MapAutoLearning_Control.git
 cd pinky_MapAutoLearning_Control/pinky/pinky_pro
 
-# 2. ROS 2 환경 설정
+# 2. Build & Source
 source /opt/ros/humble/setup.bash
-
-# 3. 빌드
 colcon build --symlink-install --packages-select pinky_mission
 source install/setup.bash
 
-# 4. 전체 시스템 실행 (2대 군집)
+# 3. Launch System (Swarm of 2)
 ros2 launch pinky_mission mission_launch.py \
-    bot_token:=YOUR_TELEGRAM_TOKEN \
-    chat_id:=YOUR_CHAT_ID
-
-# 5. 관재 UI 실행 (별도 터미널)
-ros2 run pinky_mission control_center
+    bot_token:=YOUR_TELEGRAM_TOKEN \
+    chat_id:=YOUR_CHAT_ID
 ```
 
 ---
