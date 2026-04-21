@@ -104,30 +104,8 @@ graph TD
     TR & OC & MB -.->|Ollama API| AI[(Ollama sLLM)]
 ```
 
-### 토픽 흐름 요약
 
-```
-[LiDAR + Odom] → auto_mapper → /map (OccupancyGrid, TRANSIENT_LOCAL)
-                             → /auto_mapper/status (JSON)
-
-[Camera] → yolo_detector → /mission/target_found (JSON)
-                         → /swarm/target_alert (경량 텍스트)
-
-[swarm_coordinator × N] ↔ /swarm/map_update (격자 공유)
-                        → /swarm/robot_status (JSON)
-                        ← /swarm/fleet_cmd (SOLO_SEARCH | RETURN_NOW ...)
-                        ← /swarm/direct_cmd (STOP | GOTO | WAYPOINTS ...)
-
-[fleet_manager] ← /mission/register | /mission/command | /mission/complete
-               → /swarm/fleet_cmd | /mission/status_list
-
-[control_center GUI] → /auto_mapper/command | /swarm/direct_cmd | /mission/*
-                     ← 모든 상태 토픽 (실시간 시각화)
-```
-
----
-
-## 📦 Node Details (노드 상세)
+📦 Node Details (노드 상세)
 🗺️ auto_mapper (SLAM-free Mapping)
 Generates an OccupancyGrid directly from LiDAR data using the Bresenham ray-casting algorithm.
 
