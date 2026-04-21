@@ -147,6 +147,18 @@ To minimize communication latency, each 64×64 grid cell is represented by a uni
 
 ---
 
+Markdown
+---
+
+## 🗂️ Custom 12-bit Grid Addressing System
+
+To minimize communication latency, each 64×64 grid cell is represented by a unique **12-bit address `[XY]-[XY]`**.
+
+* **Encoding**: Maps 3-bit groups to characters `A(000)` through `H(111)`.
+* **Benefit**: Reduces coordinate data size by **over 60%** compared to standard float strings, enabling high-frequency swarm updates over unstable Wi-Fi networks.
+
+---
+
 ## 🚀 Installation & Requirements
 
 * **OS**: Ubuntu 22.04 / Raspberry Pi OS (64-bit)
@@ -162,27 +174,19 @@ pip install numpy ultralytics requests
 ---
 
 ## 🤝 Contributing & Maintenance
+To ensure a professional and traceable development history, this repository strictly follows the Conventional Commits specification:
 
-To ensure a professional and traceable development history, this repository strictly follows the **Conventional Commits** specification:
+feat: Implementation of new features or modules.
 
-* `feat`: Implementation of new features or modules.
-* `fix`: Bug fixes for both hardware interface and software logic.
-* `docs`: Improvements or additions to documentation.
-* `refactor`: Code optimization specifically for field performance and reliability.
+fix: Bug fixes for both hardware interface and software logic.
+
+docs: Improvements or additions to documentation.
+
+refactor: Code optimization specifically for field performance and reliability.
 
 ---
 
-<div align="center">
+## 📩 Contact & Connect
+Pinky Team · Autonomous Swarm Robotics for Search & Rescue
 
-### 📩 Contact & Connect
-
-**Pinky Team** *Autonomous Swarm Robotics for Search & Rescue*
-
-[![Gmail](https://img.shields.io/badge/Gmail-taekchun.utaek%40gmail.com-D14836?style=flat-square&logo=gmail&logoColor=white)](mailto:taekchun.utaek@gmail.com)
-[![GitHub](https://img.shields.io/badge/GitHub-yoorobo-181717?style=flat-square&logo=github&logoColor=white)](https://github.com/yoorobo)
-
-<br/>
-
-Designed for **Industrial-grade Reliability** | Powered by **ROS 2 Humble**
-
-</div>
+Designed for Industrial-grade Reliability | Powered by ROS 2 Humble
