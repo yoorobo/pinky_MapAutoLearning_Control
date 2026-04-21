@@ -50,38 +50,54 @@ ros2 launch pinky_mission mission_launch.py \
 
 ```mermaid
 graph TD
-    subgraph Input_Sensors
-        LIDAR["/scan<br/>LaserScan"]
-        ODOM["/odom<br/>Odometry"]
-        CAM["/{ns}/camera/image_raw<br/>Image"]
+    subgraph User_Operator ["User / Operator Segment"]
+        Browser["Web Browser<br/>(Mobile / PC)"]
+        UserPC["User PC (ROS 2)<br/>(RViz2, Teleop)"]
     end
 
-    subgraph Core_Nodes
-        AM["🗺️ auto_mapper<br/>Mapping"]
-        SC["🤖 swarm_coordinator<br/>Exploration ×N"]
-        FM["📋 fleet_manager<br/>Mission Dispatch"]
-        YD["👁️ yolo_detector<br/>Detection ×N"]
-        OC["💬 ollama_commander<br/>NLP Interpreter"]
-        TR["📱 telegram_reporter<br/>Field Report"]
-        CC["🖥️ control_center<br/>Fleet GUI"]
+    subgraph Network ["Communication Network (Wi-Fi)"]
+        WebLink["HTTP / WebSockets<br/>(Port 8080)"]
+        DDS["ROS 2 DDS (RTPS)<br/>(Topic/Service/Action)"]
     end
 
-    subgraph Navigation
-        NAV["Nav2 Stack<br/>Action Server"]
+    subgraph Pinky_Controller ["Pinky Pro Main Controller (ROS 2)"]
+        subgraph App_Layer ["Application Layer"]
+            WebServer["Web Server Node"]
+            Autonomy["Autonomy Stack<br/>(Nav2, SLAM)"]
+            HRI["HRI Service<br/>(Emotion/LED)"]
+        end
+        
+        subgraph Middleware ["Middleware & Control"]
+            BaseCon["Base Controller<br/>(pinky_bringup)"]
+            SensorNode["Sensor Node<br/>(Lidar, IMU)"]
+        end
+
+        subgraph HAL ["Hardware Abstraction Layer"]
+            DY_SDK["Dynamixel SDK"]
+            IO_IF["UART / I2C / GPIO"]
+        end
     end
 
-    LIDAR --> AM
-    ODOM --> AM & SC
-    CAM --> YD
+    subgraph Hardware ["Physical Hardware"]
+        Motors["Dynamixel Motors"]
+        Sensors["RPLidar / IMU / ADC"]
+        Displays["LCD / LED / Lamp"]
+    end
 
-    AM -->|"/map"| CC
-    SC <-->|"/swarm/map_update"| SC
-    SC -->|"/swarm/robot_status"| FM & CC
-    SC <-->|NAV| NAV
-    FM -->|"/swarm/fleet_cmd"| SC
-    YD -->|"/mission/target_found"| TR & SC
-    OC -->|"/mission/command"| FM & SC
-    TR & OC -.->|Ollama API| AI[(Ollama sLLM)]
+    %% Connections
+    Browser <--> WebLink <--> WebServer
+    UserPC <--> DDS <--> Autonomy
+    DDS <--> HRI
+    DDS <--> BaseCon
+    
+    WebServer <--> Autonomy
+    Autonomy <--> BaseCon
+    Autonomy <--> SensorNode
+    HRI <--> IO_IF
+    
+    BaseCon --> DY_SDK --> Motors
+    SensorNode <--> IO_IF <--> Sensors
+    IO_IF --> Displays
 ```
 
 ### 🔄 Data Flow Summary (데이터 흐름 요약)
