@@ -105,63 +105,69 @@ graph TD
 ```
 
 
-📦 Node Details (노드 상세)
-🗺️ auto_mapper (SLAM-free Mapping)
-Generates an OccupancyGrid directly from LiDAR data using the Bresenham ray-casting algorithm.
+---
 
-Design Philosophy: Optimized for low-power SBCs (Raspberry Pi 4/5) by removing the computational overhead of standard SLAM packages (Cartographer/Gmapping).
+## 📦 Node Details
 
-🤖 swarm_coordinator (13-State Machine)
-Manages individual robot behavior through a robust finite state machine (FSM).
+### 🗺️ auto_mapper: SLAM-free Mapping
+* **Core Algorithm**: Employs the **Bresenham ray-casting** algorithm to project LiDAR data directly onto an OccupancyGrid.
+* **Design Philosophy**: Purpose-built for **low-power SBCs (Raspberry Pi 4/5)**. By bypassing the heavy computational overhead of standard SLAM packages like Cartographer or Gmapping, it ensures stable real-time mapping in resource-constrained environments.
 
-Navigation: Uses BFS (Breadth-First Search) to identify frontier cells and Nav2 for path planning.
+### 🤖 swarm_coordinator: 13-State Machine
+* **Robust FSM Control**: Manages complex multi-robot behaviors through a 13-state **Finite State Machine (FSM)**.
+* **Navigation Stack**: Utilizes **BFS (Breadth-First Search)** for frontier identification and **Nav2** for precise path planning.
+* **State Flow**: `SEARCHING` → `NAVIGATING` → `AT_BASE` → `EMERGENCY_STOP`
 
-State Transition: SEARCHING → NAVIGATING → AT_BASE → EMERGENCY_STOP.
+### 📋 fleet_manager: Fleet Optimization
+* **Smart Dispatching**: Dynamically assigns missions (e.g., search requests) by calculating the **optimal distance** and **battery health** of available units.
+* **Auto-Balance**: Features a logic that preemptively commands low-battery robots to return to base, ensuring mission continuity with remaining fleet members.
 
-📋 fleet_manager (Fleet Optimization)
-Balances mission assignments based on distance and battery levels. Automatically commands low-battery robots to return to base during active missions.
+---
 
-🛠️ Field Troubleshooting & Safety (현장 대응 및 안전)
-OSARO Recruitment Note: This project emphasizes field-ready reliability and structured error handling.
+## 🛠️ Field Troubleshooting & Safety
 
-Hardware-Software Fail-safe:
+> **Recruitment Note**: This project prioritizes **field-ready reliability** and structured error handling, essential for industrial-grade robotics deployments.
 
-Implemented a dual-layer emergency stop: Software-triggered (LiDAR proximity) and Remote-triggered (Telegram/GUI).
+* **Dual-layer Fail-safe**: 
+    * **Software-layer**: Autonomous emergency stop triggered by LiDAR proximity sensing.
+    * **Remote-layer**: Instant manual override via Telegram Bot and centralized Fleet GUI.
+* **Resource Management**: 
+    * Optimized **YOLOv8** inference through asynchronous multi-threading, maintaining a steady **10+ FPS** on Raspberry Pi 4.
+* **Communication Robustness**: 
+    * Designed a **JSON-based lightweight heartbeat** protocol. This ensures swarm synchronization remains intact even in high-interference environments (e.g., automated warehouses).
 
-Resource Management:
+---
 
-Optimized YOLOv8 inference to maintain 10+ FPS on Raspberry Pi 4 by leveraging asynchronous processing.
+## 🗂️ Custom 12-bit Grid Addressing System
 
-Communication Robustness:
+To minimize communication latency, each 64×64 grid cell is represented by a unique **12-bit address `[XY]-[XY]`**.
 
-Designed a JSON-based lightweight heartbeat protocol to ensure swarm synchronization even in unstable Wi-Fi environments (Warehouse-like settings).
+* **Encoding**: Maps 3-bit groups to characters `A(000)` through `H(111)`.
+* **Benefit**: Reduces coordinate data size by **over 60%** compared to standard float strings, enabling high-frequency swarm updates over unstable Wi-Fi networks.
 
-🗂️ Custom 12-bit Grid Addressing System
-To minimize communication latency, each 64×64 grid cell is represented by a unique 12-bit address [XY]-[XY]:
+---
 
-Format: [High 3-bits][Low 3-bits] using character mapping A(000) to H(111).
+## 🚀 Installation & Requirements
 
-Benefit: Reduces coordinate data size by 60% compared to sending raw float values, ensuring faster swarm-wide updates.
+* **OS**: Ubuntu 22.04 / Raspberry Pi OS (64-bit)
+* **ROS 2**: Humble Hawksbill
+* **Core Dependencies**: `nav2-bringup`, `ultralytics (YOLOv8)`, `ollama`, `python3-colcon-common-extensions`
 
-🚀 Installation & Requirements
-OS: Ubuntu 22.04 / Raspberry Pi OS (64-bit)
-
-ROS 2: Humble Hawksbill
-
-Core Dependencies: nav2-bringup, ultralytics (YOLOv8), ollama, python3-colcon-common-extensions
-
-Bash
-# Install Dependencies
+```bash
+# Install System Dependencies
+sudo apt update
 sudo apt install -y ros-humble-nav2-bringup ros-humble-tf-transformations
 pip install numpy ultralytics requests
+
 🤝 Contributing & Maintenance
-This repository follows Conventional Commits for clear version history:
+This repository follows Conventional Commits for a clear and professional version history:
 
-feat: New features
+feat: New features/modules
 
-fix: Bug fixes (Hardware/Software)
+fix: Bug fixes (Hardware or Software)
 
-docs: Documentation updates
+docs: Documentation improvements
 
 Pinky Team · GitHub Profile
+
 Autonomous Swarm Robotics for Search & Rescue
