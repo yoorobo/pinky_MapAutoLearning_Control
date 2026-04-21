@@ -47,6 +47,8 @@ ros2 launch pinky_mission mission_launch.py \
     chat_id:=YOUR_CHAT_ID
 
 🏗️ System Architecture (시스템 아키텍처)
+
+<img width="1012" height="1002" alt="Image" src="https://github.com/user-attachments/assets/0737201a-beae-4cb8-8a5a-6ef6e8c130e3" />
 코드 스니펫
 graph TD
     subgraph User_Operator ["User / Operator Segment"]
