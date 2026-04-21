@@ -172,7 +172,7 @@ To minimize communication latency, each 64×64 grid cell is represented by a uni
 sudo apt update
 sudo apt install -y ros-humble-nav2-bringup ros-humble-tf-transformations
 pip install numpy ultralytics requests
-
+```
 ---
 ---
 
