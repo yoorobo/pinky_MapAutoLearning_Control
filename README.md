@@ -52,56 +52,81 @@ ros2 launch pinky_mission mission_launch.py \
 ## 🏗️ 시스템 아키텍처
 
 ```mermaid
+제공해주신 draw.io(mxGraph) XML 데이터를 분석하여, GitHub README.md에서 바로 사용할 수 있는 Mermaid 코드로 변환해 드립니다.
+
+이 코드는 사용자-네트워크-컨트롤러-하드웨어로 이어지는 4단계 계층 구조를 명확하게 시각화합니다.
+
+🏗️ Pinky Pro System Architecture (Mermaid)
+코드 스니펫
 graph TD
-    subgraph 센서 입력
-        LIDAR["/scan<br/>LaserScan"]
-        ODOM["/odom<br/>Odometry"]
-        CAM["/{ns}/camera/image_raw<br/>Image"]
-    end
+    %% Segment 1: User / Operator
+    subgraph User_Segment [User / Operator Segment]
+        direction LR
+        WebBrowser["Web Browser<br/>(Mobile / PC)"]
+        UserPC["User PC (ROS 2)<br/>(RViz2, Teleop)"]
+    end
 
-    subgraph 핵심 노드
-        AM["🗺️ auto_mapper<br/>지도 생성"]
-        SC["🤖 swarm_coordinator<br/>자율 탐색 ×N"]
-        FM["📋 fleet_manager<br/>미션 배분"]
-        YD["👁️ yolo_detector<br/>객체 탐지 ×N"]
-        OC["💬 ollama_commander<br/>자연어 해석"]
-        MB["📊 mission_briefer<br/>상황 브리핑"]
-        TR["📱 telegram_reporter<br/>텔레그램 연동"]
-        CC["🖥️ control_center<br/>관재 GUI"]
-    end
+    %% Segment 2: Communication
+    subgraph Network_Segment [Communication Network (Wi-Fi)]
+        direction LR
+        HTTP_WS["HTTP / WebSockets<br/>(Port 8080)"]
+        ROS2_DDS["ROS 2 DDS (RTPS)<br/>(Topic/Service/Action)"]
+    end
 
-    subgraph Nav2
-        NAV["NavigateToPose<br/>Action Server"]
-    end
+    %% Segment 3: Main Controller (Ubuntu / ROS 2)
+    subgraph Controller_Segment [Pinky Pro Main Controller]
+        subgraph App_Layer [Application Layer]
+            WebServerNode["Web Server Node<br/>(SLAM/Nav2 Monitor)"]
+            AutonomyStack["Autonomy Stack<br/>(Nav2, SLAM Toolbox)"]
+            HRIService["HRI Service<br/>(Emotion & LED Server)"]
+        end
 
-    LIDAR --> AM
-    ODOM --> AM
-    ODOM --> SC
-    CAM --> YD
+        subgraph Middleware_Layer [Middleware & Control]
+            BaseController["Base Controller<br/>(pinky_bringup)"]
+            SensorNode["Sensor Node<br/>(Lidar, IMU, Battery)"]
+        end
 
-    AM -->|"/map"| CC
-    AM -->|"/auto_mapper/status"| CC
+        subgraph HAL_Layer [Hardware Abstraction Layer]
+            DynamixelSDK["Dynamixel SDK<br/>(C++ API)"]
+            HWInterface["UART / I2C / GPIO<br/>Interface"]
+        end
+    end
 
-    SC <-->|"/swarm/map_update"| SC
-    SC -->|"/swarm/robot_status"| FM
-    SC -->|"/swarm/robot_status"| CC
-    SC <-->|NAV| NAV
+    %% Segment 4: Physical Hardware
+    subgraph Hardware_Segment [Physical Hardware]
+        direction LR
+        Motors["Dynamixel Motors<br/>(Left / Right)"]
+        Sensors["RPLidar C1 / BNO055 IMU<br/>Voltage ADC"]
+        Displays["LCD Screen / LED Strip<br/>Lamp Control"]
+    end
 
-    FM -->|"/swarm/fleet_cmd"| SC
-    FM -->|"/mission/status_list"| CC
+    %% Connections
+    WebBrowser <-->|"REST / WS"| HTTP_WS
+    UserPC <-->|"RTPS"| ROS2_DDS
 
-    YD -->|"/mission/target_found"| TR
-    YD -->|"/mission/target_found"| MB
-    YD -->|"/swarm/target_alert"| SC
+    HTTP_WS <--> WebServerNode
+    ROS2_DDS <--> AutonomyStack
+    ROS2_DDS <--> BaseController
+    ROS2_DDS <--> HRIService
 
-    OC -->|"/mission/command"| FM
-    OC -->|"/mission/command"| SC
+    WebServerNode <-->|"Status & Map"| AutonomyStack
+    AutonomyStack <-->|"cmd_vel/odom/map"| BaseController
+    AutonomyStack <-->|"/scan / /imu"| SensorNode
 
-    CC -->|"/swarm/direct_cmd"| SC
-    CC -->|"/mission/register"| FM
-    CC -->|"/auto_mapper/command"| AM
+    BaseController <--> DynamixelSDK
+    SensorNode <--> HWInterface
+    HRIService <--> HWInterface
 
-    TR & OC & MB -.->|Ollama API| AI[(Ollama sLLM)]
+    DynamixelSDK <-->|"Serial (1Mbps)"| Motors
+    HWInterface <-->|"UART / I2C"| Sensors
+    HWInterface <-->|"HDMI/I2C/GPIO"| Displays
+
+    %% Styling
+    style User_Segment fill:#e3f2fd,stroke:#90caf9,color:#1565c0
+    style Network_Segment fill:#f3e5f5,stroke:#ce93d8,color:#6a1b9a
+    style Controller_Segment fill:#fbe5d6,stroke:#d79b00,color:#b05000
+    style Hardware_Segment fill:#e8f5e9,stroke:#81c784,color:#2e7d32
+
 ```
 
 
