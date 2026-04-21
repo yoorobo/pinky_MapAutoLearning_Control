@@ -159,6 +159,8 @@ To minimize communication latency, each 64×64 grid cell is represented by a uni
 
 ---
 
+---
+
 ## 🚀 Installation & Requirements
 
 * **OS**: Ubuntu 22.04 / Raspberry Pi OS (64-bit)
@@ -172,21 +174,30 @@ sudo apt install -y ros-humble-nav2-bringup ros-humble-tf-transformations
 pip install numpy ultralytics requests
 
 ---
+---
 
 ## 🤝 Contributing & Maintenance
-To ensure a professional and traceable development history, this repository strictly follows the Conventional Commits specification:
 
-feat: Implementation of new features or modules.
+To ensure a professional and traceable development history, this repository strictly follows the **Conventional Commits** specification:
 
-fix: Bug fixes for both hardware interface and software logic.
-
-docs: Improvements or additions to documentation.
-
-refactor: Code optimization specifically for field performance and reliability.
+* `feat`: Implementation of new features or modules.
+* `fix`: Bug fixes for both hardware interface and software logic.
+* `docs`: Improvements or additions to documentation.
+* `refactor`: Code optimization specifically for field performance and reliability.
 
 ---
 
-## 📩 Contact & Connect
-Pinky Team · Autonomous Swarm Robotics for Search & Rescue
+<div align="center">
 
-Designed for Industrial-grade Reliability | Powered by ROS 2 Humble
+### 📩 Contact & Connect
+
+**Pinky Team** *Autonomous Swarm Robotics for Search & Rescue*
+
+[![Gmail](https://img.shields.io/badge/Gmail-taekchun.utaek%40gmail.com-D14836?style=flat-square&logo=gmail&logoColor=white)](mailto:taekchun.utaek@gmail.com)
+[![GitHub](https://img.shields.io/badge/GitHub-yoorobo-181717?style=flat-square&logo=github&logoColor=white)](https://github.com/yoorobo)
+
+<br/>
+
+Designed for **Industrial-grade Reliability** | Powered by **ROS 2 Humble**
+
+</div>
